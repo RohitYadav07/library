@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ebook-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ebook
+  template:
+    metadata:
+      labels:
+        app: ebook
+    spec:
+      containers:
+      - name: ebook
+        image: ebook-app
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
