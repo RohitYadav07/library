@@ -26,9 +26,15 @@ pipeline {
             }
         }
 
+        stage('Start Minikube') {
+            steps {
+                bat '"C:\\Windows\\System32\\minikube.exe" start --driver=docker'
+            }
+        }
+
         stage('Load Image to Minikube') {
             steps {
-                bat 'minikube image load ebook-app'
+                bat '"C:\\Windows\\System32\\minikube.exe" image load ebook-app'
             }
         }
 
