@@ -20,28 +20,22 @@ pipeline {
             }
         }
 
+        stage('Docker Stop Old') {
+            steps {
+                bat 'docker stop ebook-container || exit 0'
+                bat 'docker rm ebook-container || exit 0'
+            }
+        }
+
         stage('Docker Build') {
             steps {
                 bat 'docker build -t ebook-app .'
             }
         }
 
-        stage('Start Minikube') {
+        stage('Docker Run') {
             steps {
-                bat '"C:\\Windows\\System32\\minikube.exe" start --driver=docker'
-            }
-        }
-
-        stage('Load Image to Minikube') {
-            steps {
-                bat '"C:\\Windows\\System32\\minikube.exe" image load ebook-app'
-            }
-        }
-
-        stage('Kubernetes Deploy') {
-            steps {
-                bat 'kubectl apply -f deployment.yaml'
-                bat 'kubectl apply -f service.yaml'
+                bat 'docker run -d -p 3000:3000 --name ebook-container ebook-app'
             }
         }
     }
